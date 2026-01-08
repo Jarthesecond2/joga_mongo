@@ -35,6 +35,11 @@ const database = process.env.MONGO_DATABASE
 let db, connectionString = `mongodb://${user}:${password}@${host}:${port}/${database}`
 db = connectToDB(connectionString);
 
+app.get('/', async (req, res) => {
+    const articles = await (await db).collection('articles').find().toArray()
+    console.log(articles)
+    res.render('index', {articles: articles})
+})
 app.listen(3012, () => {
     console.log('Server is running on port 3012')
 })
